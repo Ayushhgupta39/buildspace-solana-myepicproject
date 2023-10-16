@@ -13,18 +13,17 @@ pub mod myepicproject {
         Ok(())
     }
 
-    pub fn add_gif(ctx: Context<AddGif>) -> Result<()> {
-        // Get a reference to the account and increment total_gifs.
+    pub fn add_gif(ctx: Context<AddGif>, gif_link: String) -> Result<()> {
         let base_account = &mut ctx.accounts.base_account;
         let user = &mut ctx.accounts.user;
-
+    
         // Build the struct.
         let item = ItemStruct {
-            gif_link: gif_link.to_string(),
-            user_address: *user.to_account_info().key,
+          gif_link: gif_link.to_string(),
+          user_address: *user.to_account_info().key,
         };
-
-        // Add it to the gif_list vector
+            
+        // Add it to the gif_list vector.
         base_account.gif_list.push(item);
         base_account.total_gifs += 1;
         Ok(())
@@ -62,6 +61,6 @@ pub struct ItemStruct {
 #[account]
 pub struct BaseAccount {
     pub total_gifs: u64,
-    // Attack a vector of type ItemStruct to the account.
+	// Attach a Vector of type ItemStruct to the account.
     pub gif_list: Vec<ItemStruct>,
 }
